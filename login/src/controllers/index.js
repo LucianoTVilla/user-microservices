@@ -5,6 +5,8 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const { jwtSecret } = require('../utils/constants');
 
+const getUsersService = require('../services');
+
 const register = async (req, res) => {
   const { email, password } = req.body;
 
@@ -105,7 +107,40 @@ const login = async (req, res) => {
   }
 };
 
+const getUsers = async (req, res) => {
+  const authHeader = req.headers.authorization;
+  const token = authHeader && authHeader.split(' ')[1];
+
+  if (!token) {
+    res.status(401).send({
+      message: 'Token is required',
+    });
+  }
+
+  try {
+    const decodedToken = jwt.verify(token, jwtSecret);
+    const currentTimestamp = Math.floor(Date.now() / 1000);
+    if (decodedToken.exp <= currentTimestamp) {
+      return res.status(401).json({ message: 'Token has expired' });
+    }
+  } catch (error) {
+    return res.status(401).json({ message: 'Invalid token' });
+  }
+
+  try {
+    const users = await getUsersService(token)
+    res.status(200).send(users);
+  }
+  catch (error) {
+    res.status(500).send({
+      message: 'Error getting users',
+      error: error.message,
+    });
+  }
+};
+
 module.exports = {
   register,
-  login
+  login,
+  getUsers,
 };

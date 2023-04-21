@@ -6,5 +6,6 @@ const routes = express.Router();
 
 routes.post('/register', controller.register);
 routes.post('/login', controller.login);
+routes.get('/users', controller.getUsers);
 
 module.exports = routes;

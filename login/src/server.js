@@ -14,6 +14,6 @@ app.use(express.json());
 app.use('', routes);
 
 app.listen(3000, async () => {
-  console.log('Example app listening on port 3000!');
+  console.log('Login service listening on port 3000!');
   await connection()
 });

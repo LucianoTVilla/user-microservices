@@ -4,12 +4,17 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node src/server"
   },
   "author": "Luciano Villa",
   "license": "ISC",
   "dependencies": {
+    "axios": "^1.3.6",
     "cors": "^2.8.5",
-    "express": "^4.18.2"
-  }
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.0",
+    "mongoose": "^7.0.4"
+  },
+  "proxy": "http://localhost:3000"
 }
